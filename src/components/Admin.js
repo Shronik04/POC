@@ -144,7 +144,7 @@ export default function Admin() {
                                 <td>{i.name}</td>
                                 <td>{i.email}</td>
                                 <td>{i._id}</td>
-                                <td>{i.role}</td>
+                                <td>{(i.role)==0?"User":"Admin"}</td>
                                 <td>{i.status}</td>
                                 <td> {i.status == "active" ? <button className="btn btn-danger " onClick={(e) => { stat(e, index) }}>Disable</button> :
                                     <button className="btn btn-warning " onClick={(e) => { stat(e, index) }}> activate</button>}</td>

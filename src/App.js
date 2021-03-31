@@ -2,14 +2,31 @@
 import './App.css';
 import SignUp from './components/SignUp';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Switch,Link, Route} from 'react-router-dom';
+import {Switch,Link, Route,Redirect} from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home';
 import Admin from './components/Admin';
 import UserP from './components/UserP'
 import First from './components/First'
+import { useState,useEffect } from 'react'
+import cookie from 'react-cookies'
 
 function App() {
+  const [check, setCheck] = useState(false)
+  const [cook, setCook] = useState();
+  const [move, setMove]=useState(false)
+  
+  useEffect(() => {
+    setCook(document.cookie)
+    if(document.cookie) setCheck(true)
+   },[check,cook])
+  
+  function out() {
+    setCheck(false)
+    cookie.remove("Auth")
+    setCook('')
+    setMove(true)
+  }
   
   return (
     <div className="App">
@@ -17,16 +34,18 @@ function App() {
   <div className="container-fluid">
    <Link to="/">HOME</Link>
     <div className="navbar-nav ml-auto">
-    <Link to="/signup">
+    {check?<button onClick={out}>Logout</button>:(<><Link to="/signup">
     <button>
       Signup
     </button>
-    </Link> 
+    </Link>
+     
     <Link to="/login">
     <button>
       login
     </button>
-    </Link> 
+    </Link> </>)}
+    
     </div>
   </div>
 </nav>
@@ -42,7 +61,9 @@ function App() {
 
 
 
-</Switch>
+      </Switch>
+      
+      {move?<Redirect to="/" />:null}
     </div>
   );
 }
