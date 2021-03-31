@@ -35,7 +35,7 @@ export default function SignUp() {
   
   return (
     <div>
-      <form onSubmit={submitForm}>
+      <form onSubmit={submitForm} className="form">
         <label>Name</label>
         <br />
         <input
@@ -72,7 +72,7 @@ export default function SignUp() {
           }}
         />{" "}
         <br />
-        <button type="submit">submit</button>
+        <button type="submit" className="btn btn-secondary m-2">submit</button>
       </form>
       {count==1 ?(<Redirect to="/login" />): null}
     </div>

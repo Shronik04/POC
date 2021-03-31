@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 import Admin from './components/Admin';
 import UserP from './components/UserP'
+import First from './components/First'
 
 function App() {
   
@@ -14,7 +15,7 @@ function App() {
     <div className="App">
 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container-fluid">
-   <a href="#">home</a>
+   <Link to="/">HOME</Link>
     <div className="navbar-nav ml-auto">
     <Link to="/signup">
     <button>
@@ -29,7 +30,9 @@ function App() {
     </div>
   </div>
 </nav>
-<Switch>
+      <Switch>
+  <Route exact path="/" component={First} />
+        
   <Route exact path="/signup" component={SignUp} />
   <Route exact path="/login" component={Login} />
   <Route exact path="/dashboard" component={Home} />

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import cookie from 'react-cookies'
 import { Redirect } from "react-router-dom";
+import Home from './Home';
  function Login() {
 
     const [loginD, setLoginD]=useState({email:"",
@@ -29,12 +30,14 @@ password:""}
             console.log("ressss",res.data)
             cookie.save('Auth',res.data.token)
           console.log("logged");
+          setDash(1);
         
         })
-        .catch((err)=>{
+               .catch((err) => {
+          alert(err.response.data)
             console.log(err);
         })
-       setDash(1);
+     
     } 
     return (
         <div>
@@ -50,7 +53,7 @@ password:""}
           onChange={(e) => {
             setLoginD({ ...loginD, email: e.target.value });
           }}
-        />{" "}
+        />
         <br />
         <label>Password</label>
         <br />
@@ -62,11 +65,11 @@ password:""}
           onChange={(e) => {
             setLoginD({ ...loginD, password: e.target.value });
           }}
-        />{" "}
+        />
         <br />
-        <button type="submit">submit</button>
+        <button type="submit" className="btn btn-secondary m-2">submit</button>
         </form>
-        {dash==1?(<Redirect to="/dashboard" />):null}
+        {dash==1?(<Home />):null}
         </div>
     )
 }

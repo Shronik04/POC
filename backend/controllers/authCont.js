@@ -33,12 +33,7 @@ const createToken = (id) => {
 	});
 };
 
-module.exports.signup_get = (req, res) => {
-	res.render("signup");
-};
-module.exports.login_get = (req, res) => {
-	res.render("login");
-};
+
 module.exports.signup_post = async (req, res) => {
 	const { name, email, password, role } = req.body;
 	try {
@@ -52,14 +47,22 @@ module.exports.signup_post = async (req, res) => {
 	}
 };
 module.exports.login_post = async (req, res) => {
+	
 	const { email, password } = req.body;
+
+	
 	try {
 		const user = await User.login(email, password);
 		const token = createToken(user._id);
-
+if (user.status === "disabled") {
+		res.status(400).send("You are not allowed")
+	}
+else {
 		res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
 		res.status(200).send({ token, message: "logged" });
 		// res.send("logged")
+}
+	
 	} catch (err) {
 		const errors = handleError(err);
 		res.status(400).json({ errors });
@@ -94,7 +97,7 @@ module.exports.del = (req, res) => {
 module.exports.edit_post = async (req, res) => {
     User.updateOne(
         { _id: req.params.id },
-        { $set: { name: req.body.name, email: req.body.email } }
+        { $set: { name: req.body.name, email: req.body.email , status: req.body.status} }
     ).then((result) => res.send(result))
         .catch((err) =>{res.status(400).send("email already exists")})
 };

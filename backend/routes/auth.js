@@ -3,9 +3,6 @@ const router = Router();
 const authCont = require('../controllers/authCont')
 const veri =require('../middleware/tokenVerify')
 
-router.get('/signup',
-    authCont.signup_get
-)
 
 router.post('/signup',
  
@@ -16,10 +13,7 @@ router.put('/edit/:id',
     authCont.edit_post
 )
 
-router.get('/login',
 
-    authCont.login_get
-)
 router.post('/login',
 
     authCont.login_post
