@@ -30,9 +30,20 @@ mongoose
 		useCreateIndex: true,
 	})
 	.then((result) => {
-		app.listen(4000),
-	console.log("app running aat 4000");})
+		const DB = mongoose.connection;
+
+		DB.collection('categories').countDocuments()
+		.then(result => {
+		  if(result ==0){
+	  DB.collection('categories').insertMany([{name:"Teacher"},{name:"Actor"},{name:"Doctor"},{name:"Painter"},{name:"Lawer"},{name:"Scientist"}]);
+		  }  app.listen(4000)
+		})
+		
+	console.log("app running aat 4000")})
 	.catch((err) => console.log("Error in connecting DB"));
+
+
+
 
 app.get("/", (req, res) => {
 	res.render("home");

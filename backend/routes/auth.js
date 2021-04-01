@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const router = Router();
 const authCont = require('../controllers/authCont')
-const veri =require('../middleware/tokenVerify')
+const veri = require('../middleware/tokenVerify')
+
 
 
 router.post('/signup',
