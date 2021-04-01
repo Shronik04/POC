@@ -14,8 +14,13 @@ export default function Admin() {
         email: "",
         password: "",
         role: "",
+        category:""
 
     })
+
+
+    const [cat,setCat]=useState()
+
     //fetch all data
     useEffect(() => {
         const check = cookie.load("Auth")
@@ -32,6 +37,14 @@ export default function Admin() {
                 console.log(err);
             })
     }, [token, use])
+
+    useEffect(() => {
+        axios.get(`http://localhost:4000/cat/all`)
+            .then((res) => setCat(res.data,console.log(res.data)) ) 
+            .catch((err) => {
+            console.log("no cat", err);
+        })
+    },[])
     //edit the users
     const handleEdit = (e, index) => {
         e.preventDefault();
@@ -50,19 +63,19 @@ export default function Admin() {
     }
 
     //delete the users
-    const handleDelete = (e, index) => {
-        e.preventDefault();
-        axios.delete(`http://localhost:4000/${data[index]._id}`)
-            .then((res) => {
-                // setData(res.data)
-                setUse(!use);
-                console.log("settled");
-                alert("deleted  ")
-            }).catch((err) => {
-                console.log(err);
-            })
+    // const handleDelete = (e, index) => {
+    //     e.preventDefault();
+    //     axios.delete(`http://localhost:4000/${data[index]._id}`)
+    //         .then((res) => {
+    //             // setData(res.data)
+    //             setUse(!use);
+    //             console.log("settled");
+    //             alert("deleted  ")
+    //         }).catch((err) => {
+    //             console.log(err);
+    //         })
 
-    }
+    // }
     //add user
     function submitForm(e) {
         e.preventDefault();
@@ -112,6 +125,10 @@ export default function Admin() {
         setData(dat, (dat[index].email = e.target.value))
     }
 
+    const editCat = (e, index) => {
+        var c = [...data];
+        setData(c,(c[index].category = e.target.value))
+    }
 
 
     return (
@@ -126,6 +143,8 @@ export default function Admin() {
                         <th scope="col">ID</th>
                         <th scope="col">Role</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Category</th>
+
                         <th scope="col"></th>
                         <th scope="col"></th>
 
@@ -146,6 +165,9 @@ export default function Admin() {
                                 <td>{i._id}</td>
                                 <td>{(i.role)==0?"User":"Admin"}</td>
                                 <td>{i.status}</td>
+                                <td>{i.category.name}</td>
+                               
+
                                 <td> {i.status == "active" ? <button className="btn btn-danger " onClick={(e) => { stat(e, index) }}>Disable</button> :
                                     <button className="btn btn-warning " onClick={(e) => { stat(e, index) }}> activate</button>}</td>
                                 <td><button className="btn btn-primary" onClick={() => handleForm(index)}> Edit</button></td>
@@ -160,6 +182,16 @@ export default function Admin() {
                                 <td><input type="text" value={i.email} onChange={(e) => editEmail(e, index)} /></td>
                                 <td></td>
                                 <td></td>
+
+                                <td></td>
+                                <td><select onChange={(e)=>editCat(e,index)}>
+                              
+
+                                {cat &&
+                  cat.map(i => <option value={i._id}>{i.name}</option>)}
+
+                                </select></td>
+
 
 
                                 <button className="btn btn-success m-2" type='submit' onClick={(e) => { handleEdit(e, index) }}>Done</button>
@@ -184,6 +216,14 @@ export default function Admin() {
                         <option value="1">Admin</option>
                     </select></td>
                     <td></td>
+
+                    <td><select onChange={(e)=>{setNewUser({...newUser, category: e.target.value})}}>
+                              
+
+                                {
+                  cat.map(i => <option value={i._id}>{i.name}</option>)}
+
+                                </select></td>
 
                     <button className="btn btn-success" onClick={(e) => { submitForm(e) }}>ADD</button>
                     <button className="btn btn-danger m-1" onClick={() => { setAdd(0) }}>Cancel</button>

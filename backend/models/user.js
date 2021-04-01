@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
-
+const { ObjectId } = mongoose.Schema;
+const Category = require('../models/cat')
 const userSchema = new mongoose.Schema({
 
 
@@ -23,6 +24,11 @@ const userSchema = new mongoose.Schema({
     role: {
         type: Number,
         default: 0,
+	},
+	category: {
+		type: ObjectId,
+		ref:"Category",
+		required:true
 	},
 	status: {
 		type: String,

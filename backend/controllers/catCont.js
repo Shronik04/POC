@@ -10,7 +10,7 @@ module.exports.get_cat = (req, res) => {
     })
 }
 module.exports.get_catId = (req, res) => {
-    Category.findById(req.params.id)
+    Category.findOne({_id:req.params.id})
         .then((result) => {
         res.send(result)
     }).catch((err)=>{res.status(400).send(err)})

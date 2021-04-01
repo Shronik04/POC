@@ -7,8 +7,8 @@ const cors = require('cors')
 require('dotenv/config')
 const check = require("./middleware/check")
 const admin = require("./middleware/admin")
-
-
+const category =require('./middleware/cat')
+const { db } = require("./models/cat");
 const app = express();
 
 //use of middleware
@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(cors())
 app.use("/data" , check)
 app.use("/data" , admin)
-
+app.use('/cat', category)
 
 
 //connection
