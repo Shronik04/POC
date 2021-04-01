@@ -8,6 +8,7 @@ export default function Admin() {
     const [ind, setInd] = useState('')
     const [use, setUse] = useState(false);
     const [add, setAdd] = useState(0)
+    const [up,setUp]=useState(false)
     const [newUser, setNewUser] = useState({
 
         name: "",
@@ -36,8 +37,8 @@ export default function Admin() {
             }).catch((err) => {
                 console.log(err);
             })
-    }, [token, use])
-
+    }, [token, use,up])
+  
     useEffect(() => {
         axios.get(`http://localhost:4000/cat/all`)
             .then((res) => setCat(res.data,console.log(res.data)) ) 
@@ -54,7 +55,8 @@ export default function Admin() {
             .then((res) => {
                 console.log(res);
                 alert("updated")
-
+setUp(!up)
+                
             }).catch((err) => {
                 console.log("post err", err);
 

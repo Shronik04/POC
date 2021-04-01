@@ -99,7 +99,7 @@ module.exports.del = (req, res) => {
 module.exports.edit_post = async (req, res) => {
 	User.updateOne(
 		{ _id: req.params.id },
-		{ $set: { name: req.body.name, email: req.body.email, status: req.body.status } }
+		{ $set: { name: req.body.name, email: req.body.email, status: req.body.status, category: req.body.category } }
 	).then((result) => res.send(result))
 		.catch((err) => { res.status(400).send("email already exists") })
 };
